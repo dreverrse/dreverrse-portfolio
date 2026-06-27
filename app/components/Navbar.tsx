@@ -2,10 +2,10 @@
 import { useEffect, useState } from "react";
 
 const links = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Work", href: "#projects", dot: true },
-  { label: "Contact", href: "#contact", pill: true },
+  { label: "Home", href: "#home", dot: false, pill: false },
+  { label: "About", href: "#about", dot: false, pill: false },
+  { label: "Work", href: "#projects", dot: true, pill: false },
+  { label: "Contact", href: "#contact", dot: false, pill: true },
 ];
 
 export default function Navbar() {
@@ -13,29 +13,28 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const sections = ["#home", "#about", "#projects", "#experience", "#contact"];
-    const observers = sections.map((id) => {
+    const ids = ["#home", "#about", "#projects", "#experience", "#contact"];
+    const observers = ids.map((id) => {
       const el = document.querySelector(id);
       if (!el) return null;
-      const observer = new IntersectionObserver(
+      const obs = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) setActive(id);
         },
         { threshold: 0.4 }
       );
-      observer.observe(el);
-      return observer;
+      obs.observe(el);
+      return obs;
     });
-    return () => observers.forEach((obs) => obs?.disconnect());
+    return () => observers.forEach((o) => o?.disconnect());
   }, []);
 
   return (
     <header className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-      {/* Desktop — floating pill */}
       <nav
         className="hidden md:flex items-center gap-1 px-2 py-2 rounded-full"
         style={{
-          background: "rgba(20, 20, 20, 0.85)",
+          background: "rgba(20,20,20,0.85)",
           backdropFilter: "blur(16px)",
           WebkitBackdropFilter: "blur(16px)",
           border: "1px solid rgba(255,255,255,0.06)",
@@ -43,8 +42,6 @@ export default function Navbar() {
         }}
       >
         {links.map((link) => {
-          const isActive = active === link.href;
-
           if (link.pill) {
             return (
               
@@ -52,34 +49,28 @@ export default function Navbar() {
                 href={link.href}
                 onClick={() => setActive(link.href)}
                 className="px-5 py-2 rounded-full text-sm font-semibold transition-all"
-                style={{
-                  background: "#F0F0F0",
-                  color: "#0a0a0a",
-                  fontFamily: "var(--font-space-grotesk)",
-                }}
+                style={{ background: "#F0F0F0", color: "#0a0a0a" }}
               >
                 {link.label}
               </a>
             );
           }
-
           return (
             
               key={link.href}
               href={link.href}
               onClick={() => setActive(link.href)}
-              className="relative flex items-center gap-1.5 px-5 py-2 rounded-full text-sm transition-all"
+              className="flex items-center gap-1.5 px-5 py-2 rounded-full text-sm transition-all"
               style={{
-                color: isActive ? "#F0F0F0" : "#666666",
-                fontFamily: "var(--font-space-grotesk)",
-                background: isActive ? "rgba(255,255,255,0.06)" : "transparent",
+                color: active === link.href ? "#F0F0F0" : "#666666",
+                background:
+                  active === link.href
+                    ? "rgba(255,255,255,0.06)"
+                    : "transparent",
               }}
             >
               {link.dot && (
-                <span
-                  className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                  style={{ background: "#ef4444" }}
-                />
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0" />
               )}
               {link.label}
             </a>
@@ -87,38 +78,21 @@ export default function Navbar() {
         })}
       </nav>
 
-      {/* Mobile — logo + hamburger */}
       <div className="md:hidden flex items-center justify-between w-full px-2">
-        <span
-          className="font-semibold text-sm text-[#F0F0F0]"
-          style={{ fontFamily: "var(--font-space-grotesk)" }}
-        >
-          NK<span style={{ color: "#4F8EF7" }}>.</span>
+        <span className="font-semibold text-sm text-[#F0F0F0]">
+          NK<span className="text-[#4F8EF7]">.</span>
         </span>
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="flex flex-col gap-1 p-2"
           aria-label="Menu"
         >
-          <span
-            className={`block w-5 h-px bg-[#888] transition-all duration-200 ${
-              menuOpen ? "rotate-45 translate-y-1.5" : ""
-            }`}
-          />
-          <span
-            className={`block w-5 h-px bg-[#888] transition-all duration-200 ${
-              menuOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`block w-5 h-px bg-[#888] transition-all duration-200 ${
-              menuOpen ? "-rotate-45 -translate-y-1.5" : ""
-            }`}
-          />
+          <span className={`block w-5 h-px bg-[#888] transition-all duration-200 ${menuOpen ? "rotate-45 translate-y-1.5" : ""}`} />
+          <span className={`block w-5 h-px bg-[#888] transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`} />
+          <span className={`block w-5 h-px bg-[#888] transition-all duration-200 ${menuOpen ? "-rotate-45 -translate-y-1.5" : ""}`} />
         </button>
       </div>
 
-      {/* Mobile dropdown */}
       {menuOpen && (
         <div
           className="md:hidden absolute top-14 left-4 right-4 rounded-2xl p-4 flex flex-col gap-2"
@@ -140,7 +114,6 @@ export default function Navbar() {
                   active === link.href
                     ? "rgba(255,255,255,0.05)"
                     : "transparent",
-                fontFamily: "var(--font-space-grotesk)",
               }}
             >
               {link.dot && (
