@@ -87,9 +87,21 @@ export default function Navbar() {
           className="flex flex-col gap-1 p-2"
           aria-label="Menu"
         >
-          <span className={`block w-5 h-px bg-[#888] transition-all duration-200 ${menuOpen ? "rotate-45 translate-y-1.5" : ""}`} />
-          <span className={`block w-5 h-px bg-[#888] transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`block w-5 h-px bg-[#888] transition-all duration-200 ${menuOpen ? "-rotate-45 -translate-y-1.5" : ""}`} />
+          <span
+            className={`block w-5 h-px bg-[#888] transition-all duration-200 ${
+              menuOpen ? "rotate-45 translate-y-1.5" : ""
+            }`}
+          />
+          <span
+            className={`block w-5 h-px bg-[#888] transition-all duration-200 ${
+              menuOpen ? "opacity-0" : ""
+            }`}
+          />
+          <span
+            className={`block w-5 h-px bg-[#888] transition-all duration-200 ${
+              menuOpen ? "-rotate-45 -translate-y-1.5" : ""
+            }`}
+          />
         </button>
       </div>
 
