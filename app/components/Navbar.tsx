@@ -18,7 +18,9 @@ export default function Navbar() {
       const el = document.querySelector(id);
       if (!el) return null;
       const observer = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(id); },
+        ([entry]) => {
+          if (entry.isIntersecting) setActive(id);
+        },
         { threshold: 0.4 }
       );
       observer.observe(el);
@@ -85,10 +87,10 @@ export default function Navbar() {
         })}
       </nav>
 
-      {/* Mobile — hamburger */}
+      {/* Mobile — logo + hamburger */}
       <div className="md:hidden flex items-center justify-between w-full px-2">
         <span
-          className="font-display font-semibold text-sm text-[#F0F0F0]"
+          className="font-semibold text-sm text-[#F0F0F0]"
           style={{ fontFamily: "var(--font-space-grotesk)" }}
         >
           NK<span style={{ color: "#4F8EF7" }}>.</span>
@@ -98,9 +100,21 @@ export default function Navbar() {
           className="flex flex-col gap-1 p-2"
           aria-label="Menu"
         >
-          <span className={`block w-5 h-px bg-[#888] transition-all ${menuOpen ? "rotate-45 translate-y-1.5" : ""}`} />
-          <span className={`block w-5 h-px bg-[#888] transition-all ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`block w-5 h-px bg-[#888] transition-all ${menuOpen ? "-rotate-45 -translate-y-1.5" : ""}`} />
+          <span
+            className={`block w-5 h-px bg-[#888] transition-all duration-200 ${
+              menuOpen ? "rotate-45 translate-y-1.5" : ""
+            }`}
+          />
+          <span
+            className={`block w-5 h-px bg-[#888] transition-all duration-200 ${
+              menuOpen ? "opacity-0" : ""
+            }`}
+          />
+          <span
+            className={`block w-5 h-px bg-[#888] transition-all duration-200 ${
+              menuOpen ? "-rotate-45 -translate-y-1.5" : ""
+            }`}
+          />
         </button>
       </div>
 
@@ -122,7 +136,10 @@ export default function Navbar() {
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-colors"
               style={{
                 color: active === link.href ? "#F0F0F0" : "#666666",
-                background: active === link.href ? "rgba(255,255,255,0.05)" : "transparent",
+                background:
+                  active === link.href
+                    ? "rgba(255,255,255,0.05)"
+                    : "transparent",
                 fontFamily: "var(--font-space-grotesk)",
               }}
             >
